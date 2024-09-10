@@ -8,15 +8,16 @@ namespace AdventureGameConsoleApp
 {
 	public class Player
 	{
-		public string Name;
-		public int id;
+		public string Name { get; set; }
+		public int Age { get; set; }
+
 		public Hero ChosenHero { get; set; }
 
-		public Player(string name, int id, Hero chosenHero)
+		public Player(string name, int age, Hero hero)
 		{
 			Name = name;
-			this.id = id;
-			ChosenHero = chosenHero;
+			Age = age;
+			ChosenHero = hero;
 		}
 	}
 }
