@@ -16,5 +16,12 @@ namespace AdventureGameConsoleApp
 			HeroName = heroName;
 			HeroStats = heroStats;
 		}
+
+		public void DisplayHeroStats()
+		{
+			Console.WriteLine($"{HeroName}");
+			Console.WriteLine(HeroStats.ToString());
+
+		}
 	}
 }
