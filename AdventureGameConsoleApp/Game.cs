@@ -78,7 +78,6 @@ namespace AdventureGameConsoleApp
 				Console.WriteLine($"Dodge Chance: {currentMonster.MonsterStats.DodgeChance}");
 				Console.WriteLine($"Crit Chance: {currentMonster.MonsterStats.CritChance}");
 				Console.WriteLine($"Prepare to fight...");
-				Console.WriteLine("");
 
 				// Initiate combat
 				Combat combat = new Combat(player, currentMonster);
