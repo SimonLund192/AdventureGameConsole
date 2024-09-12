@@ -52,7 +52,6 @@ namespace AdventureGameConsoleApp
 				case 2:
 					PlayerHeal();
 					break;
-					Console.WriteLine("Invalid Input");
 			}
 		}
 
@@ -124,13 +123,30 @@ namespace AdventureGameConsoleApp
 			if (IsDefeated(monster))
 			{
 				Console.WriteLine("You have defeated the monster!");
+				player.GainExperience(1000); // Gain 1000 experience on win
+
+				Item droppedItem = GetMonsterDrop(monster);
+				Console.WriteLine($"The {monster.MonsterName} dropped {droppedItem.ItemName}!");
+
+				droppedItem.Equip(player.ChosenHero);
 			}
 			else
 			{
 				Console.WriteLine("You have been defeated...");
 			}
 		}
+
+		private Item GetMonsterDrop(Monster monster)
+		{
+			return monster.MonsterName switch
+			{
+				"Goblin" => new Item("Sword", new Stats(10, 0, 0, 0, 0)),
+				"Skeleton" => new Item("Hat", new Stats(0, 0, 20, 5, 0)),
+				"Ghost" => new Item("Chest", new Stats(0, 0, 30, 0, 10)),
+				"Dragon" => new Item("Gloves", new Stats(15, 0, 0, 10, 0)),
+				"Demon" => new Item("Boots", new Stats(0, 0, 10, 20, 5)),
+				_ => null,
+			};
+		}
 	}
 }
-
-
