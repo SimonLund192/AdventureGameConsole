@@ -7,21 +7,32 @@ using System.Threading.Tasks;
 
 namespace AdventureGameConsoleApp
 {
-	public class Items
+	public class Item
 	{
-		public string ItemName {  get; set; }
+		public string ItemName { get; set; }
 		public Stats ItemStats { get; set; }
-		public Items(string itemName, Stats itemStats)
+		//public string Effect {  get; set; }
+		//public string Value { get; set; }
+		public bool IsEquipped { get; private set; }
+
+		public Item(string itemName, Stats itemStats)
 		{
 			ItemName = itemName;
 			ItemStats = itemStats;
+			IsEquipped = false;
 		}
 
-		public void DisplayItemStats()
+		public void Equip(Hero hero)
 		{
-			Console.WriteLine($"{ItemName}");
-			Console.WriteLine(ItemStats.ToString());
+			if (!IsEquipped)
+			{
+				hero.HeroStats.HealthPoints += ItemStats.HealthPoints;
+				hero.HeroStats.Damage += ItemStats.Damage;
+				hero.HeroStats.DodgeChance += ItemStats.DodgeChance;
+				hero.HeroStats.CritChance += ItemStats.CritChance;
+				IsEquipped = true;
+				Console.WriteLine($"{ItemName} equipped!");
+			}
 		}
-
 	}
 }

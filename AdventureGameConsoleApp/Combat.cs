@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,30 +22,13 @@ namespace AdventureGameConsoleApp
 
 		public void StartFight()
 		{
-			//Console.WriteLine($"A wild {monster.MonsterName} appears!");
-			//Console.WriteLine($"Prepare to fight...");
-
 			bool playerTurn = true;
 
-			while (player.ChosenHero.HeroStats.HealthPoints > 0 && monster.MonsterStats.HealthPoints > 0)
+			while (!IsDefeated(player.ChosenHero) && !IsDefeated(monster))
 			{
 				if (playerTurn)
 				{
-
-					int choice = GetValidChoice();
-
-					switch (choice)
-					{
-						case 1:
-							PlayerAttack();
-							break;
-						case 2:
-							PlayerHeal();
-							break;
-						default:
-							Console.WriteLine("Invalid choice");
-							break;
-					}
+					ExecutePlayerTurn();
 				}
 				else
 				{
@@ -54,31 +38,36 @@ namespace AdventureGameConsoleApp
 				playerTurn = !playerTurn;
 			}
 
-			if (player.ChosenHero.HeroStats.HealthPoints > 0)
+			DisplayFightResult();
+		}
+
+		private void ExecutePlayerTurn()
+		{
+			int choice = GetValidChoice();
+
+			switch (choice)
 			{
-				Console.WriteLine("You have defeated the monster!");
-			}
-			else
-			{
-				Console.WriteLine("You have been defeated...");
+				case 1:
+					PlayerAttack();
+					break;
+				case 2:
+					PlayerHeal();
+					break;
 			}
 		}
 
 		private int GetValidChoice()
 		{
-			int choice;
+			Console.WriteLine("");
+			Console.WriteLine("What's your next choice?");
+			Console.WriteLine("1. Attack");
+			Console.WriteLine("2. Heal");
+
 			while (true)
 			{
-				Console.WriteLine("What's your next move?");
-				Console.WriteLine("Press [1] to Attack");
-				Console.WriteLine("Press [2] to Heal");
-				string input = Console.ReadLine();
-				if (int.TryParse(input, out choice))
+				if (int.TryParse(Console.ReadLine(), out int choice) && (choice == 1 || choice == 2))
 				{
-					if (choice == 1 || choice == 2)
-					{
-						return choice;
-					}
+					return choice;
 				}
 				Console.WriteLine("Invalid input. Please enter 1 or 2.");
 			}
@@ -86,29 +75,38 @@ namespace AdventureGameConsoleApp
 
 		private void PlayerAttack()
 		{
-			//int damage = random.Next(5,player.ChosenHero.HeroStats.Damage);
-			int damage = (player.ChosenHero.HeroStats.Damage);
-			Console.WriteLine("");
-			Console.WriteLine($"You attack the {monster.MonsterName} and deal {damage} damage!");
-
-			monster.MonsterStats.HealthPoints -= damage;
-
-			if (monster.MonsterStats.HealthPoints <= 0)
+			int damage = player.ChosenHero.HeroStats.Damage;
+			bool isCrit = random.Next(0, 100) < player.ChosenHero.HeroStats.CritChance;
+			bool isDodged = random.Next(0, 100) < player.ChosenHero.HeroStats.DodgeChance;
+			if (isCrit)
 			{
-				monster.MonsterStats.HealthPoints = 0;
-				Console.WriteLine($"{monster.MonsterName} has been defeated.");
+				damage *= 2;
+                Console.WriteLine("Critical hit!");
+				Console.WriteLine($"You attach the {monster.MonsterName} and deal {damage * 2} damage!");
+				ApplyDamage(monster.MonsterStats, damage * 2);
+				
+			}
+			if (!isCrit)
+			{ 
+                Console.WriteLine($"You attack");
+                Console.WriteLine($"You attack the {monster.MonsterName} and deal {damage} damage!");
+				ApplyDamage(monster.MonsterStats, damage);
+				
 			}
 			else
 			{
-				Console.WriteLine($"{monster.MonsterName} has {monster.MonsterStats.HealthPoints} HP left.");
+                Console.WriteLine($"{monster.MonsterName} dodged your attack!");
 			}
+			DisplayRemainingHealth(monster.MonsterStats, monster.MonsterName);
+
+			//Console.WriteLine($"You attack the {monster.MonsterName} and deal {damage} damage!")
+
 		}
 
 		private void PlayerHeal()
 		{
-			int heal = random.Next(5,player.ChosenHero.HeroStats.Heal);
-			Console.WriteLine("");
-			Console.WriteLine($"You heal for {heal} health");
+			int heal = random.Next(5, player.ChosenHero.HeroStats.Heal);
+			Console.WriteLine($"You heal for {heal} health!");
 
 			player.ChosenHero.HeroStats.HealthPoints += heal;
 
@@ -117,25 +115,66 @@ namespace AdventureGameConsoleApp
 
 		private void MonsterAttack()
 		{
-			//int damage = random.Next(5, monster.MonsterStats.Damage);
-			int damage = (monster.MonsterStats.Damage);
-			Console.WriteLine("");
+			int damage = monster.MonsterStats.Damage;
 			Console.WriteLine($"{monster.MonsterName} attacks you and deals {damage} damage!");
 
-			player.ChosenHero.HeroStats.HealthPoints -= damage;
+			ApplyDamage(player.ChosenHero.HeroStats, damage);
 
-			if (player.ChosenHero.HeroStats.HealthPoints <= 0)
+			DisplayRemainingHealth(player.ChosenHero.HeroStats, player.ChosenHero.HeroName);
+		}
+
+		private void ApplyDamage(Stats target, int damage)
+		{
+			target.HealthPoints -= damage;
+			if (target.HealthPoints < 0)
+				target.HealthPoints = 0;
+		}
+
+		private void DisplayRemainingHealth(Stats targetStats, string name)
+		{
+			Console.WriteLine($"{name} has {targetStats.HealthPoints} HP left.");
+		}
+
+		private bool IsDefeated(Hero hero) => hero.HeroStats.HealthPoints <= 0;
+
+		private bool IsDefeated(Monster monster) => monster.MonsterStats.HealthPoints <= 0;
+
+		private void DisplayFightResult()
+		{
+			if (IsDefeated(monster))
 			{
-				player.ChosenHero.HeroStats.HealthPoints = 0;
-				Console.WriteLine("You have been slain.");
+				Console.WriteLine("You have defeated the monster!");
+				player.GainExperience(1000); // Gain 1000 experience on win
+				player.GainCurrency(10);
+
+				Item droppedItem = GetMonsterDrop(monster);
+				if (droppedItem != null)
+				{
+					Console.WriteLine($"The {monster.MonsterName} dropped {droppedItem.ItemName}!");
+					droppedItem.Equip(player.ChosenHero);
+				}
+				else
+				{
+					Console.WriteLine("The monster dropped no item.");
+				}
 			}
 			else
 			{
-				Console.WriteLine($"You have {player.ChosenHero.HeroStats.HealthPoints} HP left.");
-				Console.WriteLine("");
+				Console.WriteLine("You have been defeated...");
 			}
+		}
+
+		private Item GetMonsterDrop(Monster monster)
+		{
+			return monster.MonsterName switch
+			{
+				"Goblin" => new Item("Sword", new Stats(10, 0, 0, 0, 0)),
+				"Skeleton" => new Item("Hat", new Stats(0, 0, 20, 5, 0)),
+				"Ghost" => new Item("Chest", new Stats(0, 0, 30, 0, 10)),
+				"Dragon" => new Item("Gloves", new Stats(15, 0, 0, 10, 0)),
+				"Demon" => new Item("Boots", new Stats(0, 0, 10, 20, 5)),
+				_ => null,
+			};
 		}
 	}
 }
-
-

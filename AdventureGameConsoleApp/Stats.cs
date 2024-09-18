@@ -15,6 +15,7 @@ namespace AdventureGameConsoleApp
 		public int DodgeChance { get; set; }
 		public int CritChance { get; set; }
 
+
 		private Random random = new Random();
 
 		public Stats(/*int minDamage, */int damage, int heal, int healthPoints, int dodgeChance, int critChance)

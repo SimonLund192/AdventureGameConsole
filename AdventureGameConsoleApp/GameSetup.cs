@@ -11,9 +11,9 @@ namespace AdventureGameConsoleApp
 		public Player SetupPlayer()
 		{
 			// Define different heroes with specific stats
-			Hero warrior = new Hero("Warrior", new Stats(20, 5, 100, 5, 15));
-			Hero mage = new Hero("Mage", new Stats(30, 5, 40, 25, 10));
-			Hero rogue = new Hero("Rogue", new Stats(10, 5, 90, 20, 20));
+			Hero warrior = new Hero("Warrior", new Stats(20, 5, 100, 5, 20));
+			Hero mage = new Hero("Mage", new Stats(30, 5, 40, 25, 30));
+			Hero rogue = new Hero("Rogue", new Stats(10, 5, 90, 20, 30));
 
 			// Display options to the player
 			Console.WriteLine("Choose your class:");

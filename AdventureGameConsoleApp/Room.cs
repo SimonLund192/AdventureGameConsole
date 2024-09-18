@@ -29,7 +29,6 @@ namespace AdventureGameConsoleApp
 			//	Console.WriteLine("");
 			//	Console.WriteLine("----A monster lurks here!----");
 			//	RoomMonster.DisplayMonsterStats();
-				
 			//}
 			//else
 			//{
