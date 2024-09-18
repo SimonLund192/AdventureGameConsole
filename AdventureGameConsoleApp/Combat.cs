@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,11 +76,31 @@ namespace AdventureGameConsoleApp
 		private void PlayerAttack()
 		{
 			int damage = player.ChosenHero.HeroStats.Damage;
-			Console.WriteLine($"You attack the {monster.MonsterName} and deal {damage} damage!");
-
-			ApplyDamage(monster.MonsterStats, damage);
-
+			bool isCrit = random.Next(0, 100) < player.ChosenHero.HeroStats.CritChance;
+			bool isDodged = random.Next(0, 100) < player.ChosenHero.HeroStats.DodgeChance;
+			if (isCrit)
+			{
+				damage *= 2;
+                Console.WriteLine("Critical hit!");
+				Console.WriteLine($"You attach the {monster.MonsterName} and deal {damage * 2} damage!");
+				ApplyDamage(monster.MonsterStats, damage * 2);
+				
+			}
+			if (!isCrit)
+			{ 
+                Console.WriteLine($"You attack");
+                Console.WriteLine($"You attack the {monster.MonsterName} and deal {damage} damage!");
+				ApplyDamage(monster.MonsterStats, damage);
+				
+			}
+			else
+			{
+                Console.WriteLine($"{monster.MonsterName} dodged your attack!");
+			}
 			DisplayRemainingHealth(monster.MonsterStats, monster.MonsterName);
+
+			//Console.WriteLine($"You attack the {monster.MonsterName} and deal {damage} damage!")
+
 		}
 
 		private void PlayerHeal()
@@ -124,11 +145,18 @@ namespace AdventureGameConsoleApp
 			{
 				Console.WriteLine("You have defeated the monster!");
 				player.GainExperience(1000); // Gain 1000 experience on win
+				player.GainCurrency(10);
 
 				Item droppedItem = GetMonsterDrop(monster);
-				Console.WriteLine($"The {monster.MonsterName} dropped {droppedItem.ItemName}!");
-
-				droppedItem.Equip(player.ChosenHero);
+				if (droppedItem != null)
+				{
+					Console.WriteLine($"The {monster.MonsterName} dropped {droppedItem.ItemName}!");
+					droppedItem.Equip(player.ChosenHero);
+				}
+				else
+				{
+					Console.WriteLine("The monster dropped no item.");
+				}
 			}
 			else
 			{

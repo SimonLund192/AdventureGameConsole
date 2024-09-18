@@ -34,12 +34,15 @@ namespace AdventureGameConsoleApp
 				"crowned by a domed glass ceiling. Constellations twinkle above, and telescopes point toward the heavens." +
 				"Ancient star charts adorn the walls, revealing paths to distant realms. Here you can glimpse both the" +
 				"mysteries of the cosmos, and the battles unfolding below.");
+			Room room6 = new Room("Yea", "Yea");
+
 			// Create monsters
 			Monster monster1 = new Monster("Goblin", new Stats(15, 0, 50, 10, 5));
 			Monster monster2 = new Monster("Skeleton", new Stats(20, 0, 40, 5, 10));
 			Monster monster3 = new Monster("Ghost", new Stats(25, 0, 60, 15, 15));
 			Monster monster4 = new Monster("Dragon", new Stats(50, 0, 200, 5, 20));
 			Monster monster5 = new Monster("Demon", new Stats(30, 0, 100, 10, 25));
+			Monster monster6 = new Monster("Dae", new Stats(1, 1, 10000, 1, 1));
 
 			// Pair monsters with rooms
 			List<(Room, Monster)> roomsWithMonsters = new List<(Room, Monster)>
@@ -48,7 +51,8 @@ namespace AdventureGameConsoleApp
 				(room2, monster2),
 				(room3, monster3),
 				(room4, monster4),
-				(room5, monster5)
+				(room5, monster5),
+				(room6, monster6)
 			};
 
 			// Current room index

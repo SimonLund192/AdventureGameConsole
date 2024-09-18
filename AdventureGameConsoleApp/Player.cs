@@ -13,6 +13,8 @@ namespace AdventureGameConsoleApp
 		public Hero ChosenHero { get; set; }
 		public int Experience { get; private set; }
 		public int Level { get; private set; }
+		public int Currency { get; set; }
+
 
 		public Player(string name, int age, Hero hero)
 		{
@@ -21,18 +23,25 @@ namespace AdventureGameConsoleApp
 			ChosenHero = hero;
 			Experience = 0;
 			Level = 1;
+			Currency = 0;
 		}
 
 		public void GainExperience(int exp)
 		{
 			Experience += exp;
-			Console.WriteLine($"You gained {exp} experience!");
+			Console.WriteLine($"You've gained {exp} experience!");
 
 			if (Experience >= 1000)
 			{
 				LevelUp();
 				Experience = 0;
 			}
+		}
+
+
+		public void GainCurrency(int currency)
+		{
+			Console.WriteLine($"You've gained {currency} gold!");
 		}
 
 		private void LevelUp()

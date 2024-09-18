@@ -11,6 +11,7 @@ namespace AdventureGameConsoleApp
 		public string HeroName { get; set; }
 		public Stats HeroStats { get; set; }
 
+
 		public Hero(string heroName, Stats heroStats)
 		{
 			HeroName = heroName;
