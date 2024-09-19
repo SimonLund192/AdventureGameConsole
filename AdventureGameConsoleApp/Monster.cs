@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdventureGameConsoleApp.Interface;
 
 namespace AdventureGameConsoleApp
 {
-	public class Monster
+	public class Monster : INamed
 	{
-		public string MonsterName { get; set; }
+		public string Name { get; set; }
 		public Stats MonsterStats { get; set; }
 
-		public Monster(string monsterName, Stats monsterStats)
+		public Monster(string name, Stats monsterStats)
 		{
-			MonsterName = monsterName;
+			Name = name;
 			MonsterStats = monsterStats;
 		}
 

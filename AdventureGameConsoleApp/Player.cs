@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdventureGameConsoleApp.Interface;
 
 namespace AdventureGameConsoleApp
 {
-	public class Player
+	public class Player : INamed
 	{
 		public string Name { get; set; }
 		public int Age { get; set; }
@@ -14,7 +15,6 @@ namespace AdventureGameConsoleApp
 		public int Experience { get; private set; }
 		public int Level { get; private set; }
 		public int Currency { get; set; }
-		public Item item { get; set; }
 		public List <Item> items { get; set; }
 
 
@@ -56,7 +56,7 @@ namespace AdventureGameConsoleApp
 			Console.WriteLine($"Level up! You are now level {Level}. Your stats have increased by 50%.");
 		}
 
-		public void EquipItem()
+		public void EquipItem(Item item)
 		{
 			if (item != null)
 			{
