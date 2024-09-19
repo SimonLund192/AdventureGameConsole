@@ -68,7 +68,7 @@ namespace AdventureGameConsoleApp
 				Item droppedItem = GetMonsterDrop(monster);
 				if (droppedItem != null)
 				{
-					Console.WriteLine($"The {monster.MonsterName} dropped {droppedItem.ItemName}!");
+					Console.WriteLine($"The {monster.Name} dropped {droppedItem.ItemName}!");
 					droppedItem.Equip(player.ChosenHero);
 					
 				}
@@ -88,7 +88,7 @@ namespace AdventureGameConsoleApp
 
 
 
-			return monster.MonsterName switch
+			return monster.Name switch
 			{
 				"Goblin" => new Item("Sword", new Stats(10, 0, 0, 0, 0)),
 				"Skeleton" => new Item("Hat", new Stats(0, 0, 20, 5, 0)),

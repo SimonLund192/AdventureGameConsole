@@ -24,7 +24,7 @@ namespace AdventureGameConsoleApp
 		public void MonsterAttack()
 		{
 			int damage = monster.MonsterStats.Damage;
-			Console.WriteLine($"{monster.MonsterName} attacks you and deals {damage} damage!");
+			Console.WriteLine($"{monster.Name} attacks you and deals {damage} damage!");
 
 			combat.ApplyDamage(player.ChosenHero.HeroStats, damage);
 

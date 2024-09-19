@@ -67,15 +67,15 @@ namespace AdventureGameConsoleApp
 
 			if (!isDodged)
 			{
-				Console.WriteLine($"You attack the {monster.MonsterName} and deal {damage} damage!");
+				Console.WriteLine($"You attack the {monster.Name} and deal {damage} damage!");
 				combat.ApplyDamage(monster.MonsterStats, damage);
 			}
 			else
 			{
-				Console.WriteLine($"{monster.MonsterName} dodged your attack!");
+				Console.WriteLine($"{monster.Name} dodged your attack!");
 			}
 
-			DisplayRemainingHealth(monster.MonsterStats, monster.MonsterName);
+			DisplayRemainingHealth(monster.MonsterStats, monster.Name);
 		}
 
 		private void PlayerHeal()

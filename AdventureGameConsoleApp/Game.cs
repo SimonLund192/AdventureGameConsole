@@ -74,9 +74,9 @@ namespace AdventureGameConsoleApp
 
 				// Display monster stats
 				Console.WriteLine("");
-				Console.WriteLine($"A wild {currentMonster.MonsterName} appears!");
+				Console.WriteLine($"A wild {currentMonster.Name} appears!");
 
-				Console.WriteLine($"\n{currentMonster.MonsterName} stats:");
+				Console.WriteLine($"\n{currentMonster.Name} stats:");
 				Console.WriteLine($"Damage: {currentMonster.MonsterStats.Damage}");
 				Console.WriteLine($"Health Points: {currentMonster.MonsterStats.HealthPoints}");
 				Console.WriteLine($"Dodge Chance: {currentMonster.MonsterStats.DodgeChance}");
@@ -94,7 +94,7 @@ namespace AdventureGameConsoleApp
 					break;
 				}
 
-				Console.WriteLine($"You have defeated {currentMonster.MonsterName}!");
+				Console.WriteLine($"You have defeated {currentMonster.Name}!");
 
 				if (currentRoomIndex >= roomsWithMonsters.Count - 1)
 				{
