@@ -42,7 +42,7 @@ namespace AdventureGameConsoleApp
 			Monster monster3 = new Monster("Ghost", new Stats(25, 0, 60, 15, 15));
 			Monster monster4 = new Monster("Dragon", new Stats(50, 0, 200, 5, 20));
 			Monster monster5 = new Monster("Demon", new Stats(30, 0, 100, 10, 25));
-			Monster monster6 = new Monster("Dae", new Stats(1, 1, 10000, 1, 1));
+			Monster monster6 = new Monster("Karsten", new Stats(1, 1, 10000, 1, 1));
 
 			// Pair monsters with rooms
 			List<(Room, Monster)> roomsWithMonsters = new List<(Room, Monster)>
@@ -83,62 +83,146 @@ namespace AdventureGameConsoleApp
 				Console.WriteLine($"Crit Chance: {currentMonster.MonsterStats.CritChance}");
 				Console.WriteLine($"Prepare to fight...");
 
-				// Initiate combat
 				Combat combat = new Combat(player, currentMonster);
-				combat.StartFight();
+				bool IsDefeated = combat.StartFight();
 
-				if (player.ChosenHero.HeroStats.HealthPoints <= 0)
+				// If the player lost, end the game
+				if (!IsDefeated)
 				{
 					gameRunning = false;
-					Console.WriteLine("Game Over.");
+					Console.WriteLine("GG. You were defeated.");
 					break;
 				}
 
-				// Display options to move between rooms
-				Console.WriteLine("\nWhat do you want to do?");
-				if (currentRoomIndex > 0) Console.WriteLine("1. Move to the previous room");
-				if (currentRoomIndex < roomsWithMonsters.Count - 1) Console.WriteLine("2. Move to the next room");
-				Console.WriteLine("3. Exit the game");
+				Console.WriteLine($"You have defeated {currentMonster.MonsterName}!");
 
-				// Get player's choice
-				string input = Console.ReadLine();
-
-				switch (input)
+				if (currentRoomIndex >= roomsWithMonsters.Count - 1)
 				{
-					case "1":
-						if (currentRoomIndex > 0)
-						{
-							currentRoomIndex--;
-						}
-						else
-						{
-							Console.WriteLine("You are already in the first room.");
-						}
-						break;
+					// No more rooms left
+					Console.WriteLine("You have cleared all the rooms.");
+					Console.WriteLine("Sweaty gamer.");
 
-					case "2":
-						if (currentRoomIndex < roomsWithMonsters.Count - 1)
-						{
-							currentRoomIndex++;
-						}
-						else
-						{
-							Console.WriteLine("You are already in the last room.");
-						}
-						break;
+					bool validChoice = false;
+					while (!validChoice)
+					{
+						Console.WriteLine("Do you want to:");
+						Console.WriteLine("1. View your stats");
+						Console.WriteLine("2. Quit the game");
+						string input = Console.ReadLine();
 
-					case "3":
-						gameRunning = false;
-						Console.WriteLine("Exiting the game. Goodbye!");
-						break;
+						switch (input)
+						{
+							case "1":
+								validChoice = true;
+								// Display player stats
+								Console.WriteLine("\nYour hero stats:");
+								Console.WriteLine($"Damage: {player.ChosenHero.HeroStats.Damage}");
+								Console.WriteLine($"Health Points: {player.ChosenHero.HeroStats.HealthPoints}");
+								Console.WriteLine($"Dodge Chance: {player.ChosenHero.HeroStats.DodgeChance}");
+								Console.WriteLine($"Crit Chance: {player.ChosenHero.HeroStats.CritChance}");
+								Console.WriteLine($"Level: {player.Level}");
+								Console.WriteLine($"Experience: {player.Experience}");
+								Console.WriteLine($"Currency: {player.Currency}");
+								break;
+							case "2":
+								validChoice = true;
+								gameRunning = false;
+								Console.WriteLine("Exiting the game. Goodbye!");
+								break;
+							default:
+								Console.WriteLine("Invalid choice, please enter 1 or 2.");
+								break;
+						}
+					}
+				}
+				else
+				{
+					bool validChoice = false;
+					while (!validChoice)
+					{
+						Console.WriteLine("Do you want to:");
+						Console.WriteLine("1. Move to the next room");
+						Console.WriteLine("2. Quit the game");
+						string input = Console.ReadLine();
 
-					default:
-						Console.WriteLine("Invalid option. Please choose again.");
-						break;
+						switch (input)
+						{
+							case "1":
+								validChoice = true;
+								currentRoomIndex++;
+								break;
+							case "2":
+								validChoice = true;
+								gameRunning = false;
+								Console.WriteLine("Exiting the game. Goodbye!");
+								break;
+							default:
+								Console.WriteLine("Invalid choice, please enter 1 or 2.");
+								break;
+						}
+					}
 				}
 
-				Console.Clear();
+				Console.Clear(); // Clear the console for the next room
 			}
 		}
 	}
 }
+
+
+//			combat.StartFight();
+
+//			if (player.ChosenHero.HeroStats.HealthPoints <= 0)
+//			{
+//				gameRunning = false;
+//				Console.WriteLine("Game Over.");
+//				break;
+//			}
+
+//			// Display options to move between rooms
+//			Console.WriteLine("\nWhat do you want to do?");
+//			if (currentRoomIndex > 0) Console.WriteLine("1. Move to the next room");
+//			if (currentRoomIndex < roomsWithMonsters.Count - 1) Console.WriteLine("2. Exit the game");
+//			//Console.WriteLine("3. Exit the game");
+
+//			// Get player's choice
+//			string input = Console.ReadLine();
+
+//			switch (input)
+//			{
+//				//case "1":
+//				//	if (currentRoomIndex > 0)
+//				//	{
+//				//		currentRoomIndex--;
+//				//	}
+//				//	else
+//				//	{
+//				//		Console.WriteLine("You are already in the first room.");
+//				//	}
+//				//	break;
+
+//				case "1":
+//					if (currentRoomIndex < roomsWithMonsters.Count - 1)
+//					{
+//						currentRoomIndex++;
+//					}
+//					else
+//					{
+//						Console.WriteLine("You are already in the last room.");
+//					}
+//					break;
+
+//				case "2":
+//					gameRunning = false;
+//					Console.WriteLine("Exiting the game. Goodbye!");
+//					break;
+
+//				default:
+//					Console.WriteLine("Invalid option. Please choose again.");
+//					break;
+//			}
+
+//			Console.Clear();
+//		}
+//	}
+//}

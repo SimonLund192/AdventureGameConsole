@@ -11,8 +11,8 @@ namespace AdventureGameConsoleApp
 	{
 		public string ItemName { get; set; }
 		public Stats ItemStats { get; set; }
-		//public string Effect {  get; set; }
-		//public string Value { get; set; }
+		//public string Effect {  get; set; } //#TODO
+		//public string Value { get; set; } //#TODO
 		public bool IsEquipped { get; private set; }
 
 		public Item(string itemName, Stats itemStats)

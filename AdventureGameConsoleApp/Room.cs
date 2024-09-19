@@ -23,17 +23,6 @@ namespace AdventureGameConsoleApp
 		{
 			Console.WriteLine($"You are in a {RoomName}.");
 			Console.WriteLine($"{Description}");
-
-			//if (RoomMonster != null)
-			//{
-			//	Console.WriteLine("");
-			//	Console.WriteLine("----A monster lurks here!----");
-			//	RoomMonster.DisplayMonsterStats();
-			//}
-			//else
-			//{
-			//	Console.WriteLine("No monsters here");
-			//}
 		}
 	}
 }
