@@ -14,6 +14,8 @@ namespace AdventureGameConsoleApp
 		public int Experience { get; private set; }
 		public int Level { get; private set; }
 		public int Currency { get; set; }
+		public Item item { get; set; }
+		public List <Item> items { get; set; }
 
 
 		public Player(string name, int age, Hero hero)
@@ -24,6 +26,12 @@ namespace AdventureGameConsoleApp
 			Experience = 0;
 			Level = 1;
 			Currency = 0;
+			items = new List<Item>();
+		}
+
+		public void GainCurrency(int currency)
+		{
+			Console.WriteLine($"You've gained {currency} gold!");
 		}
 
 		public void GainExperience(int exp)
@@ -38,12 +46,6 @@ namespace AdventureGameConsoleApp
 			}
 		}
 
-
-		public void GainCurrency(int currency)
-		{
-			Console.WriteLine($"You've gained {currency} gold!");
-		}
-
 		private void LevelUp()
 		{
 			Level++;
@@ -52,6 +54,19 @@ namespace AdventureGameConsoleApp
 			ChosenHero.HeroStats.DodgeChance = (int)(ChosenHero.HeroStats.DodgeChance * 1.5);
 			ChosenHero.HeroStats.CritChance = (int)(ChosenHero.HeroStats.CritChance * 1.5);
 			Console.WriteLine($"Level up! You are now level {Level}. Your stats have increased by 50%.");
+		}
+
+		public void EquipItem()
+		{
+			if (item != null)
+			{
+				items.Add(item);
+                Console.WriteLine($"{item.ItemName} equipped");
+			}
+			else
+			{
+                Console.WriteLine("No item to equip");
+			}
 		}
 	}
 }

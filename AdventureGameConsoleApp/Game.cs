@@ -100,7 +100,7 @@ namespace AdventureGameConsoleApp
 				{
 					// No more rooms left
 					Console.WriteLine("You have cleared all the rooms.");
-					Console.WriteLine("Sweaty gamer. Congrats!");
+					Console.WriteLine("Sweaty gamer.");
 
 					bool validChoice = false;
 					while (!validChoice)

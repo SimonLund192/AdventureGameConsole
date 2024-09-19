@@ -14,6 +14,7 @@ namespace AdventureGameConsoleApp
 		private PlayerActionManager playerActionManager;
 		private MonsterActionManager monsterActionManager;
 		private Random random;
+		private Item item;
 
 		public Combat(Player player, Monster monster)
 		{
@@ -22,6 +23,7 @@ namespace AdventureGameConsoleApp
 			this.random = new Random();
 			this.playerActionManager = new PlayerActionManager(player, monster, this, random);
 			this.monsterActionManager = new MonsterActionManager(monster, player, this, random);
+			
 		}
 
 		public bool StartFight()
@@ -68,6 +70,7 @@ namespace AdventureGameConsoleApp
 				{
 					Console.WriteLine($"The {monster.MonsterName} dropped {droppedItem.ItemName}!");
 					droppedItem.Equip(player.ChosenHero);
+					
 				}
 				else
 				{
@@ -82,6 +85,9 @@ namespace AdventureGameConsoleApp
 
 		private Item GetMonsterDrop(Monster monster)
 		{
+
+
+
 			return monster.MonsterName switch
 			{
 				"Goblin" => new Item("Sword", new Stats(10, 0, 0, 0, 0)),
