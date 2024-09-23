@@ -11,14 +11,16 @@ namespace AdventureGameConsoleApp
 	{
 		public string ItemName { get; set; }
 		public Stats ItemStats { get; set; }
+		//public Enchants ItemEnchant {  get; set; }
 		//public string Effect {  get; set; } //#TODO
 		//public string Value { get; set; } //#TODO
 		public bool IsEquipped { get; private set; }
 
-		public Item(string itemName, Stats itemStats)
+		public Item(string itemName, Stats itemStats/*, Enchants ItemEnchant*/)
 		{
 			ItemName = itemName;
 			ItemStats = itemStats;
+			//ItemEnchant = ItemEnchant;
 			IsEquipped = false;
 		}
 
@@ -30,6 +32,7 @@ namespace AdventureGameConsoleApp
 				hero.HeroStats.Damage += ItemStats.Damage;
 				hero.HeroStats.DodgeChance += ItemStats.DodgeChance;
 				hero.HeroStats.CritChance += ItemStats.CritChance;
+				//hero.HeroStats.LifeSteal += ItemEnchants.LifeSteal;
 				IsEquipped = true;
 				Console.WriteLine($"{ItemName} equipped!");
 			}

@@ -68,9 +68,10 @@ namespace AdventureGameConsoleApp
 				Item droppedItem = GetMonsterDrop(monster);
 				if (droppedItem != null)
 				{
+                    Console.WriteLine("");
 					Console.WriteLine($"The {monster.Name} dropped {droppedItem.ItemName}!");
-					droppedItem.Equip(player.ChosenHero);
-					
+                    Console.WriteLine("");
+					player.EquipItem(droppedItem);					
 				}
 				else
 				{
@@ -78,26 +79,26 @@ namespace AdventureGameConsoleApp
 				}
 			}
 			else
-			{
+			{	
 				Console.WriteLine("You have been defeated...");
 			}
 		}
 
 		private Item GetMonsterDrop(Monster monster)
 		{
+			int dropChance = random.Next(0, 100); // Generates a number between 0 and 99
 
-
-
-			return monster.Name switch
+			if (dropChance < 100) // 90% chance to drop an item
 			{
-				"Goblin" => new Item("Sword", new Stats(10, 0, 0, 0, 0)),
-				"Skeleton" => new Item("Hat", new Stats(0, 0, 20, 5, 0)),
-				"Ghost" => new Item("Chest", new Stats(0, 0, 30, 0, 10)),
-				"Dragon" => new Item("Gloves", new Stats(15, 0, 0, 10, 0)),
-				"Demon" => new Item("Boots", new Stats(0, 0, 10, 20, 5)),
-				_ => null,
-			};
+				Item droppedItem = new Item("Sword of doom", new Stats(10, 0, 0, 0, 0));
+				return droppedItem;
+			}
+			else
+			{
+				return null;
+			}
 		}
+
 	}
 }
 

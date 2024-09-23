@@ -14,6 +14,7 @@ namespace AdventureGameConsoleApp
 		public int HealthPoints { get; set; }
 		public int DodgeChance { get; set; }
 		public int CritChance { get; set; }
+		public int LifeSteal {  get; set; }
 
 
 		private Random random = new Random();
@@ -26,6 +27,7 @@ namespace AdventureGameConsoleApp
 			HealthPoints = healthPoints;
 			DodgeChance = dodgeChance;
 			CritChance = critChance;
+			LifeSteal = LifeSteal;
 		}
 
 		// Generate random damage based on the min/max range

@@ -61,7 +61,14 @@ namespace AdventureGameConsoleApp
 			if (item != null)
 			{
 				items.Add(item);
-                Console.WriteLine($"{item.ItemName} equipped");
+
+				ChosenHero.HeroStats.Damage += item.ItemStats.Damage;
+				ChosenHero.HeroStats.Heal += item.ItemStats.Heal;
+				ChosenHero.HeroStats.HealthPoints += item.ItemStats.HealthPoints;
+				ChosenHero.HeroStats.DodgeChance += item.ItemStats.DodgeChance;
+				ChosenHero.HeroStats.CritChance += item.ItemStats.CritChance;
+
+				Console.WriteLine($"{item.ItemName} equipped! Your stats have been updated.");
 			}
 			else
 			{
